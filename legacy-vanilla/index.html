@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DSA Visualizer — Sorting &amp; Pathfinding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="scanline"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◎</span>
+      <div class="brand-text">
+        <h1>DSA<span>VISUALIZER</span></h1>
+        <p class="brand-sub">algorithm telemetry console</p>
+      </div>
+    </div>
+
+    <nav class="mode-switch" role="tablist" aria-label="Visualizer mode">
+      <button class="mode-btn active" data-mode="sort" role="tab" aria-selected="true">
+        <span class="mode-idx">01</span> Sorting
+      </button>
+      <button class="mode-btn" data-mode="path" role="tab" aria-selected="false">
+        <span class="mode-idx">02</span> Pathfinding
+      </button>
+    </nav>
+  </header>
+
+  <main class="stage">
+
+    <!-- ============ SORTING PANEL ============ -->
+    <section id="sort-panel" class="panel active">
+      <aside class="controls">
+        <div class="control-group">
+          <label for="sort-algo">Algorithm</label>
+          <select id="sort-algo">
+            <option value="bubble">Bubble Sort</option>
+            <option value="selection">Selection Sort</option>
+            <option value="insertion">Insertion Sort</option>
+            <option value="merge">Merge Sort</option>
+            <option value="quick">Quick Sort</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="sort-size">Array size <span id="sort-size-val">50</span></label>
+          <input type="range" id="sort-size" min="10" max="150" value="50" />
+        </div>
+
+        <div class="control-group">
+          <label for="sort-speed">Speed <span id="sort-speed-val">5</span></label>
+          <input type="range" id="sort-speed" min="1" max="10" value="5" />
+        </div>
+
+        <div class="control-group btn-row">
+          <button id="sort-shuffle" class="btn btn-ghost">↻ New Array</button>
+          <button id="sort-start" class="btn btn-primary">▶ Run</button>
+          <button id="sort-stop" class="btn btn-ghost" disabled>■ Stop</button>
+        </div>
+
+        <div class="legend">
+          <div><span class="swatch idle"></span> Idle</div>
+          <div><span class="swatch compare"></span> Comparing</div>
+          <div><span class="swatch swap"></span> Swapping</div>
+          <div><span class="swatch sorted"></span> Sorted</div>
+        </div>
+      </aside>
+
+      <div class="viewport">
+        <div id="bars" class="bars"></div>
+      </div>
+    </section>
+
+    <!-- ============ PATHFINDING PANEL ============ -->
+    <section id="path-panel" class="panel">
+      <aside class="controls">
+        <div class="control-group">
+          <label for="path-algo">Algorithm</label>
+          <select id="path-algo">
+            <option value="astar">A* Search</option>
+            <option value="dijkstra">Dijkstra</option>
+            <option value="bfs">Breadth-First Search</option>
+            <option value="dfs">Depth-First Search</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="path-speed">Speed <span id="path-speed-val">5</span></label>
+          <input type="range" id="path-speed" min="1" max="10" value="5" />
+        </div>
+
+        <div class="control-group">
+          <label>Draw mode</label>
+          <div class="btn-row">
+            <button class="btn btn-toggle active" data-draw="wall">Wall</button>
+            <button class="btn btn-toggle" data-draw="start">Start</button>
+            <button class="btn btn-toggle" data-draw="end">End</button>
+          </div>
+        </div>
+
+        <div class="control-group btn-row">
+          <button id="path-maze" class="btn btn-ghost">⚡ Random Maze</button>
+          <button id="path-clear" class="btn btn-ghost">↻ Clear Grid</button>
+        </div>
+
+        <div class="control-group btn-row">
+          <button id="path-start" class="btn btn-primary">▶ Run</button>
+          <button id="path-stop" class="btn btn-ghost" disabled>■ Stop</button>
+        </div>
+
+        <div class="legend">
+          <div><span class="swatch start"></span> Start</div>
+          <div><span class="swatch end"></span> End</div>
+          <div><span class="swatch wall"></span> Wall</div>
+          <div><span class="swatch visited"></span> Visited</div>
+          <div><span class="swatch path"></span> Path</div>
+        </div>
+      </aside>
+
+      <div class="viewport">
+        <div id="grid" class="grid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="telemetry">
+    <div class="telemetry-item">
+      <span class="t-label">STATUS</span>
+      <span class="t-value" id="t-status">STANDBY</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="t-label">COMPARISONS</span>
+      <span class="t-value" id="t-compares">0000</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="t-label">SWAPS / VISITED</span>
+      <span class="t-value" id="t-swaps">0000</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="t-label">ELAPSED</span>
+      <span class="t-value" id="t-time">00.00s</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="t-label">COMPLEXITY</span>
+      <span class="t-value" id="t-complexity">O(n²)</span>
+    </div>
+  </footer>
+
+  <script src="js/sorting.js"></script>
+  <script src="js/pathfinding.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
